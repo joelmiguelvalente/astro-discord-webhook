@@ -1,0 +1,10 @@
+{
+	"webhook": "https://discord.com/api/webhooks/1362487243243126977/c_V072iJp-x_CHads4qBX75DRTZi7gfHLtZW28l_DdHSpQ6lanYtGRCjfbvfvib6TE2g",
+	"username": "ZCode - Bot",
+	"avatar_url": "https://i.imgur.com/AfFp7pu.png",
+	"footer": {
+		"text": "ZCode",
+		"icon_url": "https://i.imgur.com/ft7aM0n.png"
+	},
+	"color": "#5865F2"
+}

@@ -1,0 +1,101 @@
+---
+import { JsonData } from '../consts';
+---
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" />
+<div class="container">
+	<div class="py-4 bg-slate-900 text-center text-slate-100 rounded-lg mt-4 mb-6">
+		<h1 class="font-bold text-2xl">📢 Enviar mensaje a Discord</h1>
+	</div>
+	
+	<form method="POST" id="discordForm" enctype="multipart/form-data" class="grid grid-cols-4 gap-4">
+		<div class="col-span-3">
+			<div class="mb-3">
+				<label for="webhook" class="block text-sm/6 font-medium text-gray-900">Tu webhook</label>
+				<div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="url" name="webhook" id="webhook" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="https://discord.com/api/webhooks/000000000000000000/abcdefghijklmnopqrstuvwxyz1234567890abcdef" value={JsonData.webhook}>
+            </div>
+			</div>
+			<div class="mb-3">
+				<label for="title" class="block text-sm/6 font-medium text-gray-900">Título</label>
+				<div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="text" name="title" id="title" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6">
+            </div>
+			</div>
+			<div class="mb-3">
+				<label for="description" class="block text-sm/6 font-medium text-gray-900">Mensaje</label>
+            <textarea name="description" id="description" rows="6" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
+         </div>
+		</div>
+		<div class="col-span-3">
+			<div class="mb-3">
+				<label for="color" class="block text-sm/6 font-medium text-gray-900">Color (hex)</label>
+				<div class="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="color" name="color" id="color" class="block grow text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" value={JsonData.color} />
+            </div>
+			</div>
+
+			<div class="mb-3">
+				<label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
+				<div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="text" name="username" id="username" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" value={JsonData.username} />
+            </div>
+			</div>
+
+			<div class="mb-3">
+				<label for="avatar_url" class="block text-sm/6 font-medium text-gray-900">Avatar URL</label>
+				<div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="url" name="avatar_url" id="avatar_url" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" value={JsonData.avatar_url} />
+            </div>
+			</div>
+
+			<div class="mb-3">
+				<label for="footer_text" class="block text-sm/6 font-medium text-gray-900">Footer Text</label>
+				<div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="text" name="footer_text" id="footer_text" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" value={JsonData.footer.text} />
+            </div>
+			</div>
+
+			<div class="mb-3">
+				<label for="footer_icon_url" class="block text-sm/6 font-medium text-gray-900">Footer Icon URL</label>
+				<div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <input type="url" name="footer_icon_url" id="footer_icon_url" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" value={JsonData.footer.icon} />
+            </div>
+			</div>
+
+		</div>
+
+		<div class="col-start-1 col-end-7">
+			<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">🚀 Enviar a Discord</button>
+		</div>
+		
+	</form>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script type="module">
+	const easyMDE = new EasyMDE({ element: document.getElementById("description") });
+
+	const form = document.getElementById("discordForm");
+	form.addEventListener("submit", async (e) => {
+    	e.preventDefault();
+    	const formData = new FormData(form);
+    	formData.set("description", easyMDE.value());
+    	const data = Object.fromEntries(formData.entries());
+
+    	const response = await fetch("/api/send-discord", {
+      	method: "POST",
+      	headers: {
+        		"Content-Type": "application/json"
+      	},
+      	body: JSON.stringify(data)
+    	});
+    	if (response.ok) {
+    		// Limpiar formulario
+      	form.reset();
+      	// Redirigir al index
+      	window.location.href = "/";
+    	} else {
+      	alert("Hubo un error al enviar el mensaje.");
+    	}
+  	});
+</script>
