@@ -3,7 +3,7 @@
 	"avatar_url": "https://i.imgur.com/AfFp7pu.png",
 	"footer": {
 		"text": "ZCode",
-		"icon_url": "https://i.imgur.com/ft7aM0n.png"
+		"icon": "https://i.imgur.com/ft7aM0n.png"
 	},
 	"color": "#5865F2"
 }

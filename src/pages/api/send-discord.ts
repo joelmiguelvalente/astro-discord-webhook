@@ -17,17 +17,18 @@ async function getRequestData(request: Request) {
 }
 
 // Función para extraer los valores del formulario o JSON
-function extractData(data: any) {
-  	return {
-   	webhook: data.webhook?.toString(),
-   	title: data.title?.toString(),
-   	description: data.description?.toString(),
-   	color: data.color?.toString(),
-   	username: data.username?.toString(),
-   	avatar_url: data.avatar_url?.toString(),
-   	footer_text: data.footer?.text?.toString(),
-   	footer_icon_url: data.footer?.icon_url?.toString(),
-  	};
+function extractData(formData: FormData) {
+  return {
+    webhook: formData.get('webhook')?.toString(),
+    title: formData.get('title')?.toString(),
+    description: formData.get('description')?.toString(),
+    color: formData.get('color')?.toString(),
+    username: formData.get('username')?.toString(),
+    avatar_url: formData.get('avatar_url')?.toString(),
+    footer_text: formData.get('footer_text')?.toString(),         // ¡cambio importante!
+    footer_icon_url: formData.get('footer_icon_url')?.toString(), // ¡cambio importante!
+    file: formData.get('file'),
+  };
 }
 
 // Handler principal
@@ -36,10 +37,10 @@ export const POST: APIRoute = async ({ request }) => {
    	// Obtener los datos del request
    	const data = await getRequestData(request);
    	// Extraer los valores relevantes
-   	const { webhook, title, description, color, username, avatar_url, footer_text, footer_icon_url } = extractData(data);
+   	const { webhook, title, description, color, username, avatar_url, footer_text, footer_icon_url, file } = extractData(data);
    	// Enviar mensaje a Discord
    	const footer = { text: footer_text, icon_url: footer_icon_url };
-   	await sendToDiscordWebhook({ webhook, title, description, color, username, avatar_url, footer });
+   	await sendToDiscordWebhook({ webhook, title, description, color, username, avatar_url, footer, file });
 
    	return new Response("Mensaje enviado correctamente", { status: 200 });
   	} catch (error) {

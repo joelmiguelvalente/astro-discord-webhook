@@ -11,29 +11,34 @@ import { JsonData } from '../consts';
  * @param {Object} [options.footer] - Pie de página del embed
  */
 export async function sendToDiscordWebhook(options) {
-  	const { webhook, title, description, color, username, avatar_url, footer } = options;
+  	const { webhook, title, description, color, username, avatar_url, footer, file } = options;
+  	
+	const form = new FormData();
 
-	const payload = {
-		username: username || JsonData.username,
-		avatar_url: avatar_url || JsonData.avatar_url,
-		embeds: [{
-		   title: title || "",
-		   description: description || "",
-		   color: parseInt((color || JsonData.color).replace("#", ""), 16),
-		   footer: {
-		      text: footer?.text || JsonData.footer.text,
-		      icon_url: footer?.icon_url || JsonData.footer.icon_url
-		   },
-		   timestamp: new Date().toISOString()
-		}]
-	};
+  	const embed = {
+   	title: title || "",
+   	description: description || "",
+   	color: parseInt((color || "#5865F2").replace("#", ""), 16),
+   	footer: {
+   	  text: footer?.text || "",
+   	  icon_url: footer?.icon_url || ""
+   	},
+   	timestamp: new Date().toISOString()
+  	};
+
+ 	form.append("payload_json", JSON.stringify({
+ 		username: username,
+ 		avatar_url: avatar_url,
+ 		embeds: [embed]
+ 	}));
+
+  	if (file) {
+    	form.append("file", file, file.name);
+ 	}
 
   	const response = await fetch(webhook, {
-   	method: "POST",
-   	headers: { 
-   		"Content-Type": "application/json" 
-   	},
-   	body: JSON.stringify(payload)
+    	method: "POST",
+    	body: form
   	});
 
   	if (!response.ok) {
